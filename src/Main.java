@@ -240,7 +240,7 @@ public class Main {
             "Victim is poisoned",
             "Hastings asks around for information",
             "Someone wears a disguise",
-            "Ms. Lemon has a stylish hat",
+            "Ms. Lemon wears a stylish hat",
             "Poirot talks about himself in 3rd person",
             "Married couple hates each other",
             "Classism",
