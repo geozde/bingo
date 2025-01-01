@@ -17,9 +17,13 @@ public class Main {
         };
 
         String[][] bingo = new String[5][5];
-        String pathToPoirot = "C:/Users/Goezde/Pictures/Poirot.jpg";
-        assignValues(bingo, poirotContent);
-        printToImage(bingo, pathToPoirot);
+        String pathToPoirot = "../Poirot.jpg";
+        for (int i = 0; i < 3; i++) {
+            String imageName = "poirot_bingo";
+            String imagePath = "/Desktop/" + imageName + i + ".png";
+            assignValues(bingo, poirotContent);
+            printToImage(bingo, pathToPoirot, imagePath);
+        }
     }
 
     /**
@@ -54,14 +58,16 @@ public class Main {
      * exports input array as image of a grid to desktop
      * @param bingo values to be exported in the grid
      */
-    private static void printToImage(String[][] bingo, String pathToMiddleImage) throws IOException {
+    private static void printToImage(String[][] bingo, String pathToMiddleImage, String imagePath) throws IOException {
         int cellSize = 200;
         int padding = 50;
         int headerHeight = 200;
+        int lineWidth = 8;
         // total width of the grid
-        int width = bingo[0].length * cellSize + 2*padding;
-        int height = bingo.length * cellSize + 2*padding + headerHeight;
+        int width = 5*cellSize + 2*padding + 6*lineWidth;
+        int height = 5*cellSize + 2*padding + headerHeight +  6*lineWidth;
         int headerFontSize = 150;
+
 
         // create a colour image
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -83,14 +89,24 @@ public class Main {
         // Draw grid lines
         g2d.setColor(Color.BLACK);
         // Horizontal lines
-        for (int i = 0; i <= bingo.length; i++) {
-            g2d.drawLine(padding, headerHeight + padding + (i * cellSize),
-                    width - padding, headerHeight + padding + (i * cellSize));
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= lineWidth; j++) {
+                g2d.drawLine(
+                        padding, // x-coordinate of starting point
+                        headerHeight + padding + (i * cellSize) + j + (lineWidth * i), // y-coordinate of starting point
+                        width - padding, // x-coordinate of end point
+                        headerHeight + padding + (i * cellSize) + j + (lineWidth * i)); // y-coordinate of end point
+            }
         }
         // Vertical lines
-        for (int j = 0; j <= bingo[0].length; j++) {
-            g2d.drawLine(padding + (j * cellSize), headerHeight + padding,
-                    padding + (j * cellSize), height - padding);
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= lineWidth; j++) {
+                g2d.drawLine(
+                        padding + (i * cellSize) + (i * lineWidth) + j, // x-coordinate of starting point
+                        headerHeight + padding, // y-coordinate of starting point
+                        padding + (i * cellSize) + (i * lineWidth) + j, // x-coordinate of end point
+                        height - padding ); // y-coordinate of end point
+            }
         }
 
         // Draw text in cells
@@ -101,10 +117,10 @@ public class Main {
             for (int j = 0; j < bingo[i].length; j++) {
                 String cellText = bingo[i][j];
                 // Wrap the text to not exceed the cell width
-                List<String> lines = wrapText(cellText, cellFontMetrics, cellSize-cellFontSize);
+                List<String> lines = wrapText(cellText, cellFontMetrics, cellSize-2*cellFontSize);
 
                 // Calculate the Y position for text in this cell
-                int startY = headerHeight + padding + (i*cellSize) +
+                int startY = headerHeight + padding + (i * (cellSize + lineWidth)) + lineWidth +
                         (cellSize - (lines.size() * cellFontSize)) / 2 +
                         cellFontMetrics.getAscent();
 
@@ -112,8 +128,8 @@ public class Main {
                 for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++) {
                     String line = lines.get(lineIndex);
                     // Calculate the X position for each line of text
-                    int lineWidth = cellFontMetrics.stringWidth(line);
-                    int startX = padding + j*cellSize + (cellSize-lineWidth)/2;
+                    int stringLineWidth = cellFontMetrics.stringWidth(line);
+                    int startX = padding + (j * (cellSize + lineWidth)) + lineWidth + (cellSize - stringLineWidth)/2;
 
                     // Draw the line
                     g2d.drawString(line, startX, startY + (lineIndex * cellFontSize));
@@ -127,15 +143,15 @@ public class Main {
         // Scale image to fit within cell
         BufferedImage resizedImageMiddleCell = resizeImage(imageMiddleCell, cellSize);
         // Calculate position of image
-        int middleImageY = headerHeight + padding + 2*cellSize + (cellSize- resizedImageMiddleCell.getHeight())/2;
-        int middleImageX = padding + 2*cellSize + (cellSize-resizedImageMiddleCell.getWidth())/2;
+        int middleImageY = headerHeight + padding + 2*cellSize + 3*lineWidth + (cellSize- resizedImageMiddleCell.getHeight())/2;
+        int middleImageX = padding + 2*cellSize + 3*lineWidth + (cellSize-resizedImageMiddleCell.getWidth())/2;
         g2d.drawImage(resizedImageMiddleCell, middleImageX, middleImageY, null);
 
         // Dispose of the Graphics2D object
         g2d.dispose();
 
         try {
-            File outputFile = new File(System.getProperty("user.home") + "/Desktop/poirot_bingo.png");
+            File outputFile = new File(System.getProperty("user.home") + imagePath);
             ImageIO.write(image, "png", outputFile);
             System.out.println("Image saved to desktop as 'poirot_bingo.png'");
         } catch (IOException e) {
@@ -233,7 +249,7 @@ public class Main {
             "Suspects are gathered for 'summing up'",
             "Poirot: 'little grey cells'",
             "Poirot: 'a matter of life and death",
-            "Poirot is furious about himself",
+            "Poirot is furious",
             "Poirot drinks tea",
             "Hastings: 'I say!'",
             "Hastings: 'Good Lord!'",
@@ -252,7 +268,11 @@ public class Main {
             "Poirot's office building from the outside",
             "Someone talks on the phone",
             "Someone is observed",
-            "Taxi"
+            "Taxi",
+            "Poirot uses his pocketwatch",
+            "'the famous detective'",
+            "Client visits Poirot",
+            "Household staff is questioned"
     };
 
 }
