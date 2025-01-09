@@ -244,10 +244,8 @@ public class Main {
             "Police chase",
             "Poirot is insulted!",
             "Hastings obsesses about cars",
-            "Sexism",
-            "A woman screams",
             "Suspects are gathered for 'summing up'",
-            "Poirot: 'little grey cells'",
+            "'little grey cells'",
             "Poirot: 'a matter of life and death",
             "Poirot is furious",
             "Poirot drinks tea",
@@ -259,7 +257,6 @@ public class Main {
             "Ms. Lemon wears a stylish hat",
             "Poirot talks about himself in 3rd person",
             "Married couple hates each other",
-            "Classism",
             "Poirot walks with his cane",
             "Poirot dislikes food or a performance",
             "Someone reads the newspaper",
@@ -270,9 +267,13 @@ public class Main {
             "Someone is observed",
             "Taxi",
             "Poirot uses his pocketwatch",
-            "'the famous detective'",
+            "Poirot's fame",
             "Client visits Poirot",
-            "Household staff is questioned"
+            "Household staff is questioned",
+            "Poirot smiles politely without meaning it",
+            "Poirot takes law into his own hands",
+            "Poirot's cleanliness",
+            "'How do you do?'"
     };
 
 }
